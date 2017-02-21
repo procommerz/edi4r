@@ -465,13 +465,20 @@ module EDI
 
     def Interchange.parse( hnd, auto_validate=true )
       case rc=Interchange.detect( hnd )
-      when 'BZ': Interchange.parse( EDI::Bzip2Reader.new( hnd ) ) # see "peek"
-      when 'GZ': Interchange.parse( Zlib::GzipReader.new( hnd ) )
-      when 'E':  EDI::E::Interchange.parse( hnd, auto_validate )
-      when 'I':  EDI::I::Interchange.parse( hnd, auto_validate )
-      when 'XE': EDI::E::Interchange.parse_xml( REXML::Document.new(hnd) )
-      when 'XI': EDI::I::Interchange.parse_xml( REXML::Document.new(hnd) )
-      else raise "#{rc}: Unsupported format key - don\'t know how to proceed!"
+      when 'BZ'
+        Interchange.parse( EDI::Bzip2Reader.new( hnd ) ) # see "peek"
+      when 'GZ'
+        Interchange.parse( Zlib::GzipReader.new( hnd ) )
+      when 'E'
+        EDI::E::Interchange.parse( hnd, auto_validate )
+      when 'I'
+        EDI::I::Interchange.parse( hnd, auto_validate )
+      when 'XE'
+        EDI::E::Interchange.parse_xml( REXML::Document.new(hnd) )
+      when 'XI'
+        EDI::I::Interchange.parse_xml( REXML::Document.new(hnd) )
+      else 
+        raise "#{rc}: Unsupported format key - don\'t know how to proceed!"
       end
     end
 
@@ -489,14 +496,21 @@ module EDI
         # Does not exist yet!
 #      when 'BZ': Interchange.peek( Zlib::Bzip2Reader.new( hnd ) )
         # Temporary substitute, Unix/Linux only, low performance:
-      when 'BZ': Interchange.peek( EDI::Bzip2Reader.new( hnd ) )
+      when 'BZ'
+      	Interchange.peek( EDI::Bzip2Reader.new( hnd ) )
 
-      when 'GZ': Interchange.peek( Zlib::GzipReader.new( hnd ) )
-      when 'E':  EDI::E::Interchange.peek( hnd )
-      when 'I':  EDI::I::Interchange.peek( hnd )
-      when 'XE': EDI::E::Interchange.peek_xml( REXML::Document.new(hnd) )
-      when 'XI': EDI::I::Interchange.peek_xml( REXML::Document.new(hnd) )
-      else raise "#{rc}: Unsupported format key - don\'t know how to proceed!"
+      when 'GZ'
+      	Interchange.peek( Zlib::GzipReader.new( hnd ) )
+      when 'E'
+      	EDI::E::Interchange.peek( hnd )
+      when 'I'
+      	EDI::I::Interchange.peek( hnd )
+      when 'XE'
+      	EDI::E::Interchange.peek_xml( REXML::Document.new(hnd) )
+      when 'XI'
+      	EDI::I::Interchange.peek_xml( REXML::Document.new(hnd) )
+      else
+      	raise "#{rc}: Unsupported format key - don\'t know how to proceed!"
       end
     end
 

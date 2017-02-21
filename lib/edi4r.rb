@@ -1,3 +1,5 @@
+# encoding: US-ASCII
+
 =begin rdoc
 :main:README
 :title:edi4r

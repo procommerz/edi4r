@@ -897,21 +897,23 @@ module EDI
             # Decimal char does not go into length count:
             len -= 1 if not md[3].nil?
             # len -= 1 if (md[1]=='-' and md[3]) || (md[1] != '' and not md[3])
-            break if not required? and len == 0
-            if len > _size.to_i
-#            if _upto.nil? and len != _size.to_i or len > _size.to_i
-              warn "Context in #{location}: #{_a_n_an}, #{_upto}, #{_size}; #{md[1]}, #{md[2]}, #{md[3]}"
-              warn "Length # mismatch in #{location}: #{len} vs. #{_size}"
-              err_count += 1
-              #            warn "  (strval was: '#{strval}')"
-            end
-            if md[1] =~/^0+/
-              warn "#{strval} contains leading zeroes"
-              err_count += 1
-            end
-            if md[3] and md[3]=~ /.0+$/
-              warn "#{strval} contains trailing decimal sign/zeroes"
-              err_count += 1
+
+            if !required? and len != 0
+              if len > _size.to_i
+  #            if _upto.nil? and len != _size.to_i or len > _size.to_i
+                warn "Context in #{location}: #{_a_n_an}, #{_upto}, #{_size}; #{md[1]}, #{md[2]}, #{md[3]}"
+                warn "Length # mismatch in #{location}: #{len} vs. #{_size}"
+                err_count += 1
+                #            warn "  (strval was: '#{strval}')"
+              end
+              if md[1] =~/^0+/
+                warn "#{strval} contains leading zeroes"
+                err_count += 1
+              end
+              if md[3] and md[3]=~ /.0+$/
+                warn "#{strval} contains trailing decimal sign/zeroes"
+                err_count += 1
+              end
             end
 
           when 'a', 'an'
